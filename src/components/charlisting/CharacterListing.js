@@ -27,18 +27,19 @@ const CharacterListing = () => {
 
   console.log("tabledata",tableData);
 
+  // [{label:"Human",id:1},{label:"Elf",id:2},{label:"Robbit",id:3},{label:"Dwarf",id:4}]
 
   const sortOptions = [{label:"asc",id:1},{label:"desc",id:2}]
   const genderOptions = [{label:"Male",id:1},{label:"Female",id:2},{label:"Any",id:3}]
-  const raceOptions = [{label:"Human",id:1},{label:"Elf",id:2},{label:"Robbit",id:3},{label:"Dwarf",id:4}]
+  const [raceOptions,setRaceOptions] = useState([])
 
   console.log("sortType",sortType);
   console.log("name",name);
 
-  // const setRaceOptions = () => {
+  const handleRaceOptions = (data) => {
 
-
-  // }
+    setRaceOptions(data)
+  }
 
 
   const nameChange = (e) => {
@@ -217,7 +218,7 @@ const CharacterListing = () => {
             </Grid>
           </Box>
 
-          <CharacterTable tableData={tableData}/>
+          <CharacterTable tableData={tableData} handleRaceOptions={handleRaceOptions}/>
 
       </Box>
 

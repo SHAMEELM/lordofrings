@@ -31,7 +31,7 @@ const CharacterDetails = () => {
       <Box
         sx={{
           width: 1100,
-          height: 800,
+          height: 600,
           border: '1px solid black ',        
           ml:15,
           mr:25,

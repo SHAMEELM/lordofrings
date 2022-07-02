@@ -72,9 +72,32 @@ const CharacterTable = (props) => {
     .then((result) => {
       console.log("result", result);
       setCharacters(result.data.docs)
+      setRaceOptions(result.data.docs)
 
     }
     )
+  }
+
+  const setRaceOptions = (data) => {
+
+    const charactersData = data
+
+    const racesArray = charactersData.map(char => {
+      return char.race
+    })
+    console.log("racesArray",racesArray)
+    let uniqueChars = [...new Set(racesArray)];
+    const deleteIndex = uniqueChars.findIndex(x => x==='NaN')
+    uniqueChars.splice(deleteIndex,1)
+    console.log("uniqueChars",uniqueChars)
+
+    const raceOptions = uniqueChars.map((race,index) => {
+      return {id:index+1, label:race}
+    })
+
+    props.handleRaceOptions(raceOptions)
+
+
   }
 
   useEffect(() => {

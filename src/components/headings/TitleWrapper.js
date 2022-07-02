@@ -7,7 +7,6 @@ function TitleWrapper() {
             backgroundColor: '#1F2833',
             '&:hover': {
               backgroundColor: '#1A2238',
-              // opacity: [0.9, 0.8, 0.7],
             },
           }}>
             <h1 style={{align:"center", fontFamily:"sans-serif Tahoma", color:"#66FCF1", paddingTop:20}}>THE LORD OF THE RINGS API</h1>

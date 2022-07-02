@@ -8,12 +8,12 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from "@mui/material/InputAdornment";
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
-import Chip from "@mui/material/Chip";
 import axios from 'axios';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { Oval  } from 'react-loader-spinner';
 
 import TitleWrapper from '../headings/TitleWrapper'
 import CharacterTable from './CharacterTable'
-import { tab } from '@testing-library/user-event/dist/tab';
 
 const CharacterListing = () => {
 
@@ -24,17 +24,13 @@ const CharacterListing = () => {
   const [gender, setGender] = useState('')
 
   const [tableData,setTableData] = useState([])
+  const [loading, setLoading] = useState(false)
 
-  console.log("tabledata",tableData);
-
-  // [{label:"Human",id:1},{label:"Elf",id:2},{label:"Robbit",id:3},{label:"Dwarf",id:4}]
 
   const sortOptions = [{label:"asc",id:1},{label:"desc",id:2}]
   const genderOptions = [{label:"Male",id:1},{label:"Female",id:2},{label:"Any",id:3}]
   const [raceOptions,setRaceOptions] = useState([])
 
-  console.log("sortType",sortType);
-  console.log("name",name);
 
   const handleRaceOptions = (data) => {
 
@@ -43,17 +39,20 @@ const CharacterListing = () => {
 
 
   const nameChange = (e) => {
-    console.log("data",e.target.value);
 
     setName(e.target.value)
     
   }
 
   const nameSearchHandler = async() => {
+
     if(name.trim()===''){
       return
     }
     else {
+
+      setLoading(true)
+
       await axios.get(`https://the-one-api.dev/v2/character?name=${name}&race=${race===''? race : race.label}&gender=${gender===''? gender :gender.label}`,
       {
         headers: {
@@ -62,11 +61,11 @@ const CharacterListing = () => {
       }
     )
     .then((result) => {
-      console.log("result", result);
       setTableData(result.data.docs)
 
     }
     )
+    setLoading(false)
     }
     
   }
@@ -100,6 +99,8 @@ const CharacterListing = () => {
 
   const submitHandler = async() => {
 
+    setLoading(true)
+
     let characterApi = ''
 
     if(name==='') {
@@ -119,11 +120,12 @@ const CharacterListing = () => {
       }
     )
     .then((result) => {
-      console.log("result", result.data.docs);
       setTableData(result.data.docs)
 
     }
     )
+    setLoading(false)
+
   }
 
 
@@ -191,7 +193,6 @@ const CharacterListing = () => {
                   disablePortal
                   id="combo-box-demo"
                   value={race}
-                  // multiple
                   options={raceOptions}
                   onChange={raceChange}
                   sx={{ width: 300 }}
@@ -217,6 +218,7 @@ const CharacterListing = () => {
 
             </Grid>
           </Box>
+          {loading && <Oval  color="#00BFFF" height={80} width={80} align="center"/>}
 
           <CharacterTable tableData={tableData} handleRaceOptions={handleRaceOptions}/>
 

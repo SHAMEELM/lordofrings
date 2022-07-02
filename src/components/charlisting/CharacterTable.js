@@ -12,6 +12,8 @@ import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
 import { Button } from "@mui/material";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { Oval  } from 'react-loader-spinner';
 
 
 
@@ -34,6 +36,8 @@ const CharacterTable = (props) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  const [loading, setLoading] = useState(false)
+
   const [characters,setCharacters] = useState([])
 
   const onOpenDetails = (data) => {
@@ -45,7 +49,6 @@ const CharacterTable = (props) => {
 
   const handleChangePage = (event, newPage) => {
 
-    console.log("ddd")
     setPage(newPage);
   };
 
@@ -54,7 +57,6 @@ const CharacterTable = (props) => {
     setPage(0);
   };
 
-  // const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const tableHeadStyle = {
     fontWeight:'bold'
@@ -62,6 +64,7 @@ const CharacterTable = (props) => {
 
   const loadData = async () => {
     
+    setLoading(true)
     await axios.get('https://the-one-api.dev/v2/character?sort=name:asc',
         {
           headers: {
@@ -70,12 +73,12 @@ const CharacterTable = (props) => {
       }
     )
     .then((result) => {
-      console.log("result", result);
       setCharacters(result.data.docs)
       setRaceOptions(result.data.docs)
 
     }
     )
+    setLoading(false)
   }
 
   const setRaceOptions = (data) => {
@@ -85,11 +88,9 @@ const CharacterTable = (props) => {
     const racesArray = charactersData.map(char => {
       return char.race
     })
-    console.log("racesArray",racesArray)
     let uniqueChars = [...new Set(racesArray)];
     const deleteIndex = uniqueChars.findIndex(x => x==='NaN')
     uniqueChars.splice(deleteIndex,1)
-    console.log("uniqueChars",uniqueChars)
 
     const raceOptions = uniqueChars.map((race,index) => {
       return {id:index+1, label:race}
@@ -110,7 +111,6 @@ const CharacterTable = (props) => {
     setRowsPerPage(10)
   }, [props.tableData])
 
-  console.log("characters",characters)
   
      
   return (
@@ -125,6 +125,7 @@ const CharacterTable = (props) => {
                 <TableCell style={tableHeadStyle} align="center">Gender</TableCell>
                 <TableCell style={tableHeadStyle} align="center">Actions</TableCell>
               </TableRow>
+              {loading && <Oval  color="#00BFFF" height={80} width={80} align="center"/>}
             </TableHead>
             <TableBody>
               {characters
@@ -140,11 +141,7 @@ const CharacterTable = (props) => {
                     <TableCell align="center" style={{padding:'5px'}}><Button style={{height:'20px'}} variant="outlined" onClick={()=>onOpenDetails((row))}>Details {'>>'}</Button></TableCell> 
                   </TableRow>
                 ))}
-              {/* {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )} */}
+              
             </TableBody>
           </Table>
           <TablePagination

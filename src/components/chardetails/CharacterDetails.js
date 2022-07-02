@@ -1,6 +1,5 @@
 import React from 'react'
 
-import TitleWrapper from '../headings/TitleWrapper'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { useLocation } from 'react-router-dom'
@@ -8,14 +7,14 @@ import Link from '@mui/material/Link';
 import { useNavigate  } from 'react-router-dom';
 import { Button } from "@mui/material";
 
+import TitleWrapper from '../headings/TitleWrapper'
+
 
 const CharacterDetails = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
 
-
-  console.log("params",location.state)
 
   const characterDetails = location.state
 

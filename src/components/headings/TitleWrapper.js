@@ -4,13 +4,13 @@ function TitleWrapper() {
     return ( 
         <Box sx={{
             width: '100%',
-            backgroundColor: 'lightskyblue',
+            backgroundColor: '#1F2833',
             '&:hover': {
-              backgroundColor: 'dodgerblue',
-              opacity: [0.9, 0.8, 0.7],
+              backgroundColor: '#1A2238',
+              // opacity: [0.9, 0.8, 0.7],
             },
           }}>
-            <h1 style={{align:"center", fontFamily:"cursive", color:"indianred", paddingTop:20}}>THE LORD OF THE RINGS API</h1>
+            <h1 style={{align:"center", fontFamily:"sans-serif Tahoma", color:"#66FCF1", paddingTop:20}}>THE LORD OF THE RINGS API</h1>
             <h2 style={{align:"center", fontFamily:"cursive", color:"red", paddingTop:10}}>The one API to Rule them all</h2>
         </Box>
      );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+import { useNavigate  } from 'react-router-dom';
 import { makeStyles } from "@mui/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,8 +10,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
-import Box from '@mui/material/Box';
 import axios from "axios";
+
 
 
 
@@ -24,14 +25,21 @@ const useStyles = makeStyles({
 
 
 
-const CharacterTable = () => {
+const CharacterTable = (props) => {
 
   const classes = useStyles();
+  const navigate = useNavigate();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const [characters,setCharacters] = useState([])
+
+  const onOpenDetails = (data) => {
+      
+    navigate('/character-detail', { state: data}, { replace: true });
+    
+  }
   
 
   const handleChangePage = (event, newPage) => {
@@ -53,7 +61,7 @@ const CharacterTable = () => {
 
   const loadData = async () => {
     
-    await axios.get('https://the-one-api.dev/v2/character',
+    await axios.get('https://the-one-api.dev/v2/character?sort=name:asc',
         {
           headers: {
             Authorization: 'Bearer vKcOoUXdIMo8u_oeIPnP'
@@ -71,6 +79,12 @@ const CharacterTable = () => {
   useEffect(() => {
     loadData()   
   }, [])
+
+  useEffect(() => {
+    setCharacters(props.tableData)
+    setPage(0)
+    setRowsPerPage(10)
+  }, [props.tableData])
 
   console.log("characters",characters)
   
@@ -99,7 +113,7 @@ const CharacterTable = () => {
                     <TableCell align="center" style={{padding:'5px'}}>{row.name}</TableCell>
                     <TableCell align="center" style={{padding:'5px'}}>{row.race}</TableCell>
                     <TableCell align="center" style={{padding:'5px'}}>{row.gender}</TableCell>
-                    <TableCell align="center" style={{padding:'5px'}}>Details</TableCell>
+                    <TableCell align="center" style={{padding:'5px'}} onClick={()=>onOpenDetails((row))}>Details</TableCell> 
                   </TableRow>
                 ))}
               {/* {emptyRows > 0 && (
@@ -110,7 +124,7 @@ const CharacterTable = () => {
             </TableBody>
           </Table>
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[10, 20, 50]}
             component="div"
             count={characters.length}
             rowsPerPage={rowsPerPage}

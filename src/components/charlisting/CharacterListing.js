@@ -35,6 +35,11 @@ const CharacterListing = () => {
   console.log("sortType",sortType);
   console.log("name",name);
 
+  // const setRaceOptions = () => {
+
+
+  // }
+
 
   const nameChange = (e) => {
     console.log("data",e.target.value);

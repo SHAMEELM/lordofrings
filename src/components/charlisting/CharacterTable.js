@@ -11,6 +11,7 @@ import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
+import { Button } from "@mui/material";
 
 
 
@@ -113,7 +114,7 @@ const CharacterTable = (props) => {
                     <TableCell align="center" style={{padding:'5px'}}>{row.name}</TableCell>
                     <TableCell align="center" style={{padding:'5px'}}>{row.race}</TableCell>
                     <TableCell align="center" style={{padding:'5px'}}>{row.gender}</TableCell>
-                    <TableCell align="center" style={{padding:'5px'}} onClick={()=>onOpenDetails((row))}>Details</TableCell> 
+                    <TableCell align="center" style={{padding:'5px'}}><Button style={{height:'20px'}} variant="outlined" onClick={()=>onOpenDetails((row))}>Details {'>>'}</Button></TableCell> 
                   </TableRow>
                 ))}
               {/* {emptyRows > 0 && (
